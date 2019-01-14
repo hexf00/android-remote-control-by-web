@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Android远程控制@hexf00</title>
+    <script src="{{screen_uri}}/jquery.js"></script>
+    <style>
+        #screen {
+            position: relative;
+        }
+
+        #screen img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .hide {
+            width: 0;
+            height: 0;
+        }
+
+        #screen2 {
+            position: absolute;
+        }
+        #tool{
+            float:left
+        }
+    </style>
+</head>
+
+<body onload="bodyLoad()">
+    
+  
+    
+    <div id="screen">
+        <img alt="屏幕" src="{{screen_uri}}/screen">
+        <img alt="屏幕" src="{{screen_uri}}/screen">
+    </div>
+    <div id="screen2">
+    </div>
+
+  
+
+    <script>
+        var imgSrc = "{{screen_uri}}/screen?"
+
+        function getNext() {
+            $("#screen").append('<img onload="getNext();" alt="连接已经断开请重新连接" src="' + imgSrc + new Date().getTime() +
+                Math.random() + '">')
+            setTimeout(() => {
+                $("img")[0].remove()
+            }, 500)
+        }
+
+        var bodyLoad = () => {
+            $("#screen2").width($("img").width() + "px")
+            $("#screen2").height($("img").height() + "px")
+            getNext()
+        }
+
+        var isDown = false
+        var downEvent
+        $("#screen2").on("mousedown", (e) => {
+            isDown = true
+            downEvent = e
+
+        })
+        $("#screen2").on("mouseup", (e) => {
+            isDown = false
+
+            duration = Math.ceil(e.timeStamp - downEvent.timeStamp)
+            x1 = downEvent.offsetX * 2
+            y1 = downEvent.offsetY * 2
+            x2 = e.offsetX * 2
+            y2 = e.offsetY * 2
+
+
+            $.ajax({
+                url: "{{screen_uri}}/swipe",
+                type: "get",
+                dataType: "jsonp",
+                data: {
+                    duration,
+                    x1,
+                    y1,
+                    x2,
+                    y2
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>
