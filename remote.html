@@ -26,24 +26,33 @@
         #screen2 {
             position: absolute;
         }
-        #tool{
-            float:left
+
+        #tool {
+            float: left
         }
     </style>
 </head>
 
 <body onload="bodyLoad()">
-    
-  
-    
-    <div id="screen">
-        <img alt="屏幕" src="{{screen_uri}}/screen">
-        <img alt="屏幕" src="{{screen_uri}}/screen">
+
+
+    <div id="tool">
+        <button>主页</button>
+        <button>返回</button>
+        <button>电源</button>
+        <button>通知</button>
+        <button>任务</button>
     </div>
-    <div id="screen2">
+    <div id="box">
+        <div id="screen">
+            <img alt="屏幕" src="{{screen_uri}}/screen">
+            <img alt="屏幕" src="{{screen_uri}}/screen">
+        </div>
+        <div id="screen2">
+        </div>
     </div>
 
-  
+
 
     <script>
         var imgSrc = "{{screen_uri}}/screen?"
